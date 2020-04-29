@@ -56,3 +56,13 @@ __LibsCollection__ is (currently) compatible with all minecraft versions
 (Spigot & BungeeCord). If __LibsCollection__ is used as a dependency of 
 another plugin, then the total compatibility can be influenced by the other
 plugins version scope.
+
+### Included Libraries
+
+Library | Version | Description
+------- | ------- | -----------
+**Logging** | 1.0 | A simple logging extension to format your logs and console outputs.
+**LScript** | 2.0 | A small script language to store language packets for applications.
+**prid** | 1.0 | A simple parser to convert data strings.
+**Updater** | 1.0 | A Updater for Spigot & BungeeCord to check versions and install updates.
+**UTIL** | 1.0 | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
