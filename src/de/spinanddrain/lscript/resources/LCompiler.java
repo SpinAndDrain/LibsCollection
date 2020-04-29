@@ -138,7 +138,7 @@ public final class LCompiler {
 		CollectiveContainerBuilder builder = new CollectiveContainerBuilder();
 		final String[] lines = ((DecompilingSession) s).lines;
 		String currentContainer = null, currentLine = null;
-		for(int i = 0; i < lines.length; i++) {
+		for(int i = 0, c = 1; i < lines.length; i++, c++) {
 			currentLine = ignoreSpacesAndComments(lines[i]);
 			if(currentLine.isEmpty() || currentLine.startsWith(getCommentBegin())) {
 				continue;
@@ -152,17 +152,17 @@ public final class LCompiler {
 					else if(currentLine.contains("pattern"))
 						builder.add("$raw", "!pattern", getFirstContentBetween(currentLine, "()"));
 					else
-						throw new ScriptSyntaxException("invalid key word", i);
-				} else if(containsAny(currentLine, getVariableSplit()) && currentLine
-						.split(getActiveSplitValue(currentLine, getVariableSplit())).length == 2) {
-					String[] v = currentLine.split(getActiveSplitValue(currentLine, getVariableSplit()));
+						throw new ScriptSyntaxException("invalid key word", c);
+				} else if(containsAny(currentLine, getVariableSplit()) && splitExact(
+						currentLine, getActiveSplitValue(currentLine, getVariableSplit())).length == 2) {
+					String[] v = splitExact(currentLine, getActiveSplitValue(currentLine, getVariableSplit()));
 					String name = v[0];
 					if(variableOverflow())
 						throw new ScriptDecompileException("variable limit overflowed");
 					if(builder.find("$raw") != null && builder.find("$raw").containsKey(name))
-						throw new ScriptException("variable '" + name + "' was already initialized", i);
+						throw new ScriptException("variable '" + name + "' was already initialized", c);
 					if(!isValidVariableName(name))
-						throw new ScriptSyntaxException("invalid variable name '" + name + "'", i);
+						throw new ScriptSyntaxException("invalid variable name '" + name + "'", c);
 					builder.add("$raw", name, getSymbolSize('\'', v[1]) == 2 ? getFirstContentBetween(v[1], "''") : v[1]);
 				} else if(currentLine.endsWith(getContainerOpening(false)) && currentLine.split(getContainerOpening(true)).length == 1) {
 					String name = currentLine.split(getContainerOpening(true))[0];
@@ -171,28 +171,28 @@ public final class LCompiler {
 					if(containerOverflow())
 						throw new ScriptDecompileException("container limit overflowed");
 					if(builder.find(name) != null)
-						throw new ScriptException("container '" + name + "' was already initialized", i);
+						throw new ScriptException("container '" + name + "' was already initialized", c);
 					if(!isValidContainerName(name))
-						throw new ScriptSyntaxException("invalid container name '" + name + "'", i);
+						throw new ScriptSyntaxException("invalid container name '" + name + "'", c);
 					currentContainer = name;
 				} else
-					throw new ScriptSyntaxException("invalid syntax '" + currentLine + "'", i);
+					throw new ScriptSyntaxException("invalid syntax '" + currentLine + "'", c);
 			} else {
 				if(containsAny(currentLine, getEntrySplit()) &&
-						currentLine.split(getActiveSplitValue(currentLine, getEntrySplit())).length == 2) {
-					String[] v = currentLine.split(getActiveSplitValue(currentLine, getEntrySplit()));
+						splitExact(currentLine, getActiveSplitValue(currentLine, getEntrySplit())).length == 2) {
+					String[] v = splitExact(currentLine, getActiveSplitValue(currentLine, getEntrySplit()));
 					String key = v[0];
 					if(variableOverflow())
 						throw new ScriptDecompileException("entry limit overflowed");
 					if(builder.find(currentContainer) != null && builder.find(currentContainer).containsKey(key))
-						throw new ScriptException("entry key '" + key + "' was already initialized", i);
+						throw new ScriptException("entry key '" + key + "' was already initialized", c);
 					if(!isValidEntryName(key))
-						throw new ScriptSyntaxException("invalid entry key name '" + key + "'", i);
+						throw new ScriptSyntaxException("invalid entry key name '" + key + "'", c);
 					builder.add(currentContainer, key, getSymbolSize('\'', v[1]) == 2 ? getFirstContentBetween(v[1], "''") : v[1]);
 				} else if(currentLine.contains(getContainerClosure(false)))
 					currentContainer = null;
 				else
-					throw new ScriptSyntaxException("invalid syntax '" + currentLine + "'", i);
+					throw new ScriptSyntaxException("invalid syntax '" + currentLine + "'", c);
 			}
 		}
 		return builder.pack();
@@ -213,6 +213,27 @@ public final class LCompiler {
 		this.cc = new AtomicInteger();
 		this.cl = new AtomicInteger();
 		LCompilerProperties.standardize(properties);
+	}
+	
+	private String[] splitExact(String s, String splitreg) {
+		if(splitreg.length() != 1)
+			return new String[0];
+		List<String> split = new ArrayList<String>();
+		boolean open = false;
+		String currentSplit = new String();
+		StringArray array = ArrayUtils.splitAndModify(s);
+		for(int i = 0; i < array.length(); i++) {
+			if(array.get(i).equals(splitreg) && !open) {
+				split.add(currentSplit);
+				currentSplit = new String();
+			} else if(array.get(i).equals("'")) {
+				open = !open;
+				currentSplit += array.get(i);
+			} else
+				currentSplit += array.get(i);
+		}
+		split.add(currentSplit);
+		return split.toArray(new String[split.size()]);
 	}
 	
 	/**
@@ -332,7 +353,7 @@ public final class LCompiler {
 	 * @return property helper
 	 */
 	private String getEntrySplit() {
-		return String.valueOf(((String) properties.get("entry.split")).toCharArray()[0]);
+		return String.valueOf(((String) properties.get("entry.split")));
 	}
 	
 	/**
@@ -368,7 +389,7 @@ public final class LCompiler {
 	 * @return property helper
 	 */
 	private String getVariableSplit() {
-		return String.valueOf(((String) properties.get("variable.split")).toCharArray()[0]);
+		return String.valueOf(((String) properties.get("variable.split")));
 	}
 	
 	/**
