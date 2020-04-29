@@ -4,7 +4,7 @@ developement.
 
 ### Links
 
-* [Resource Page](?)
+* [Resource Page](https://www.spigotmc.org/resources/libscollection-all-versions-spigot-bungeecord.78115/)
 
 ### Dependencies
 
