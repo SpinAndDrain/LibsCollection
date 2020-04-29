@@ -1,3 +1,26 @@
+# compiled stuff
+bin/
+*.class
+
+# files
+*.log
+*.ctxt
+
+# packs
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# eclipse
+.project
+.classpath
+.settings
+*.jardesc
+
+# maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup

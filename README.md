@@ -1,2 +1,2 @@
 # LibsCollection
-A collection of useful libraries and functions.
+A collection of useful libraries
