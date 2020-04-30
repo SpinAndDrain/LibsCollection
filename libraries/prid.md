@@ -38,4 +38,4 @@ int resource = ResourceIdParser.defaultPrid().getResourceIdByKey("de.spinanddrai
 ````
 
 ### Useful classes
-* (ResourceIdParser)[https://github.com/SpinAndDrain/LibsCollection/blob/master/src/de/spinanddrain/prid/ResourceIdParser.java]
+* [ResourceIdParser](https://github.com/SpinAndDrain/LibsCollection/blob/master/src/de/spinanddrain/prid/ResourceIdParser.java)
