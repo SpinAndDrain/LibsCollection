@@ -1,13 +1,18 @@
 package de.spinanddrain.updater.requests.provider;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLClassLoader;
 
 import de.spinanddrain.updater.exception.RareException;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
 
 public class Bungee implements ExecutionProvider {
 
+	private Plugin plugin;
 	private File me;
 	private String name;
 	
@@ -33,6 +38,7 @@ public class Bungee implements ExecutionProvider {
 		try {
 			me = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
 			this.name = name;
+			this.plugin = plugin;
 		} catch (URISyntaxException e) {
 			throw new RareException();
 		}
@@ -40,7 +46,16 @@ public class Bungee implements ExecutionProvider {
 	
 	@Override
 	public String preparation() {
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> me.delete()));
+		PluginManager pm = ProxyServer.getInstance().getPluginManager();
+		pm.unregisterCommands(plugin);
+		pm.unregisterListeners(plugin);
+		URLClassLoader loader = (URLClassLoader) plugin.getClass().getClassLoader();
+		try {
+			loader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		me.delete();
 		return name;
 	}
 	

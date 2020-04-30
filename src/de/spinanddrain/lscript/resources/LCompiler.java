@@ -105,7 +105,7 @@ public final class LCompiler {
 				throw new ScriptCompileException("variable limit overflowed");
 			if(!isValidVariableName(v.getName()))
 				throw new ScriptCompileException("variable has invalid name: '" + v.getName() + "'");
-			lines.add(v.getName() + getVariableSplit() + convertValue(v.getValue()));
+			lines.add(v.getName() + firstVariableChar() + convertValue(v.getValue()));
 		}
 		if(vc.get() > 0)
 			lines.add(new String());
@@ -121,7 +121,7 @@ public final class LCompiler {
 					throw new ScriptCompileException("entry limit overflowed");
 				if(!isValidEntryName(e.getKey()))
 					throw new ScriptCompileException("entry has invalid name: '" + e.getKey() + "'");
-				lines.add("\t" + e.getKey() + getEntrySplit() + convertValue(e.getValue()));
+				lines.add("\t" + e.getKey() + firstEntryChar() + convertValue(e.getValue()));
 			}
 			lines.add(getContainerClosure(false));
 			if(cx++ + 1 < p.getContent().length)
@@ -215,6 +215,14 @@ public final class LCompiler {
 		LCompilerProperties.standardize(properties);
 	}
 	
+	/**
+	 * Splits a String with ignoring the split char
+	 * between ''
+	 * 
+	 * @param s the string
+	 * @param splitreg the split char
+	 * @return the exact split String[]
+	 */
 	private String[] splitExact(String s, String splitreg) {
 		if(splitreg.length() != 1)
 			return new String[0];
@@ -353,7 +361,15 @@ public final class LCompiler {
 	 * @return property helper
 	 */
 	private String getEntrySplit() {
-		return String.valueOf(((String) properties.get("entry.split")));
+		return ((String) properties.get("entry.split"));
+	}
+	
+	/**
+	 * 
+	 * @return property helper
+	 */
+	private String firstEntryChar() {
+		return String.valueOf(this.getEntrySplit().toCharArray()[0]);
 	}
 	
 	/**
@@ -389,7 +405,15 @@ public final class LCompiler {
 	 * @return property helper
 	 */
 	private String getVariableSplit() {
-		return String.valueOf(((String) properties.get("variable.split")));
+		return ((String) properties.get("variable.split"));
+	}
+	
+	/**
+	 * 
+	 * @return property helper
+	 */
+	private String firstVariableChar() {
+		return String.valueOf(this.getVariableSplit().toCharArray()[0]);
 	}
 	
 	/**

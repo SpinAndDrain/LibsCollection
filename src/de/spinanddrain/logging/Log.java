@@ -76,11 +76,12 @@ public class Log {
 	 * @param message
 	 */
 	public void log(String prefix, String message) {
+		String m = (type == LogType.WARN ? "warn:" : type == LogType.SEVERE ? "severe:" : "") + message;
 		try {
 			if(type == LogType.RAW) {
 				console.getClass().getMethod("sendMessage", String.class).invoke(console, prefix(prefix) + new KeyTranslator(message).translateAll());
 			} else {
-				KeyTranslator t = new KeyTranslator(message);
+				KeyTranslator t = new KeyTranslator(m);
 				logger.log(t.getLevel(), prefix(prefix) + (type.getIgnoreParameters() ? t.getMessage() : t.translateAll()));
 			}
 		} catch(Exception e) {

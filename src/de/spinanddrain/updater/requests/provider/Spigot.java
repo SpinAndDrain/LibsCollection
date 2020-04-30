@@ -1,7 +1,9 @@
 package de.spinanddrain.updater.requests.provider;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLClassLoader;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
@@ -49,6 +51,14 @@ public class Spigot implements ExecutionProvider {
 	@Override
 	public String preparation() {
 		Bukkit.getPluginManager().disablePlugin(plugin);
+		URLClassLoader loader = (URLClassLoader) plugin.getClass().getClassLoader();
+		try {
+//			((JarFile) loader.getClass().getField("jar").get(loader)).close();
+			loader.close();
+		} catch (IllegalArgumentException | SecurityException
+				| IOException e) {
+			e.printStackTrace();
+		}
 		me.delete();
 		return name;
 	}

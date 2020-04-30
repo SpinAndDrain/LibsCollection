@@ -10,8 +10,9 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.google.gson.JsonSyntaxException;
 
 import de.spinanddrain.updater.exception.HttpRequestException;
@@ -72,11 +73,11 @@ public class Updater {
 			Object response = RequestHelper
 					.of("https://api.spiget.org/v2/resources/" + resource + "/versions?size=" + versionSize)
 					.sendRequest();
-			JsonArray array = (JsonArray) response;
-			for (int i = 0; i < array.size(); i++) {
-				JsonObject o = (JsonObject) array.get(i);
-				if (o.get("name").getAsString().equals(versionString))
-					return o.get("id").getAsLong();
+			JSONArray array = (JSONArray) response;
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject o = (JSONObject) array.get(i);
+				if (o.get("name").equals(versionString))
+					return (long) o.get("id");
 			}
 		} catch (JsonSyntaxException | IOException e) {
 			throw new HttpRequestException(e.getMessage());
@@ -120,6 +121,7 @@ public class Updater {
 			output.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 			output.flush();
 			output.close();
+			provider.postProcessing(file);
 		} catch(IOException e) {
 			throw new UpdateException(e.getMessage());
 		}
@@ -159,6 +161,7 @@ public class Updater {
 			output.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 			output.flush();
 			output.close();
+			provider.postProcessing(file);
 		} catch (IOException e) {
 			throw new UpdateException(e.getMessage());
 		}
