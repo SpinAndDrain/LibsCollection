@@ -61,8 +61,8 @@ plugins version scope.
 
 Library | Version | Author | Description
 ------- | ------- | ------ | -----------
-**Logging** | 1.0 | SpinAndDrain | A simple logging extension to format your logs and console outputs.
+**[Logging](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/Logging.md)** | 1.0 | SpinAndDrain | A simple logging extension to format your logs and console outputs.
 **[LScript](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/LScript.md)** | 2.0 | SpinAndDrain | A small script language to store language packets for applications.
-**prid** | 1.0 | SpinAndDrain | A simple parser to convert data strings.
+**[prid](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/prid.md)** | 1.0 | SpinAndDrain | A simple parser to convert data strings.
 **Updater** | 1.0 | SpinAndDrain | A Updater for Spigot & BungeeCord to check versions and install updates.
 **UTIL** | 1.0 | SpinAndDrain | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
