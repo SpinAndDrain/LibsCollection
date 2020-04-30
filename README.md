@@ -65,4 +65,4 @@ Library | Version | Author | Description
 **[LScript](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/LScript.md)** | 2.0 | SpinAndDrain | A small script language to store language packets for applications.
 **[prid](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/prid.md)** | 1.0 | SpinAndDrain | A simple parser to convert data strings.
 **[Updater](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/Updater.md)** | 1.0 | SpinAndDrain | A Updater for Spigot & BungeeCord to check versions and install updates.
-**UTIL** | 1.0 | SpinAndDrain | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
+**[UTIL](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/UTIL.md)** | 1.0 | SpinAndDrain | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
