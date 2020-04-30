@@ -5,6 +5,7 @@ developement.
 ### Links
 
 * [Resource Page](https://www.spigotmc.org/resources/libscollection-all-versions-spigot-bungeecord.78115/)
+* [Mini-Docs](https://github.com/SpinAndDrain/LibsCollection/tree/master/libraries)
 
 ### Dependencies
 
