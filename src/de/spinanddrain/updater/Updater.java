@@ -10,9 +10,8 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import de.spinanddrain.updater.exception.HttpRequestException;
@@ -21,7 +20,7 @@ import de.spinanddrain.updater.requests.RequestHelper;
 import de.spinanddrain.updater.requests.provider.ExecutionProvider;
 
 public class Updater {
-
+	
 	private final String version;
 	private final int resource;
 
@@ -50,9 +49,9 @@ public class Updater {
 
 	/**
 	 * 
-	 * @return the latest version of this resource
+	 * @return the latest known version of this resource
 	 */
-	public String getLatestVersion() {
+	public String getLatestKnownVersion() {
 		try {
 			return new BufferedReader(new InputStreamReader(
 					new URL("https://api.spigotmc.org/legacy/update.php?resource=" + resource).openStream()))
@@ -62,6 +61,22 @@ public class Updater {
 		}
 	}
 
+	/**
+	 * <b>This method is recommended.</b>
+	 * 
+	 * @return the latest version of this resource
+	 */
+	public String getLatestVersion() {
+		try {
+			Object response = RequestHelper.of("https://api.spiget.org/v2/resources/" + resource + "/versions/latest")
+					.sendRequest();
+			JsonObject o = (JsonObject) response;
+			return o.get("name").getAsString();
+		} catch(Exception e) {
+			throw new HttpRequestException(e.getMessage());
+		}
+	}
+	
 	/**
 	 * 
 	 * @param versionString the version
@@ -73,11 +88,11 @@ public class Updater {
 			Object response = RequestHelper
 					.of("https://api.spiget.org/v2/resources/" + resource + "/versions?size=" + versionSize)
 					.sendRequest();
-			JSONArray array = (JSONArray) response;
-			for (int i = 0; i < array.length(); i++) {
-				JSONObject o = (JSONObject) array.get(i);
-				if (o.get("name").equals(versionString))
-					return (long) o.get("id");
+			JsonArray array = (JsonArray) response;
+			for (int i = 0; i < array.size(); i++) {
+				JsonObject o = (JsonObject) array.get(i);
+				if (o.get("name").getAsString().equals(versionString))
+					return o.get("id").getAsLong();
 			}
 		} catch (JsonSyntaxException | IOException e) {
 			throw new HttpRequestException(e.getMessage());
@@ -104,7 +119,7 @@ public class Updater {
 	 */
 	public void installLatestVersion(ExecutionProvider provider) {
 		try {
-			String v = this.getLatestVersion();
+			String v = this.getLatestKnownVersion();
 			File file = new File("plugins/" + provider.preparation() + v + ".jar");
 			if (!file.getParentFile().exists())
 				file.getParentFile().mkdirs();
@@ -139,7 +154,7 @@ public class Updater {
 	public void install(String version, ExecutionProvider provider) {
 		try {
 			boolean latest = version.equals("latest");
-			String v = latest ? this.getLatestVersion() : version,
+			String v = latest ? this.getLatestKnownVersion() : version,
 					id = latest ? version : String.valueOf(this.getVersionId(v));
 			File file = new File("plugins/" + provider.preparation() + v + ".jar");
 			if (!file.getParentFile().exists())
