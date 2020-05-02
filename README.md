@@ -67,4 +67,4 @@ Library | Version | Author | Description
 **[prid](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/prid.md)** | 1.0 | SpinAndDrain | A simple parser to convert data strings.
 **[Updater](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/Updater.md)** | 1.0.2 | SpinAndDrain | A Updater for Spigot & BungeeCord to check versions and install updates.
 **[UTIL](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/UTIL.md)** | 1.0 | SpinAndDrain | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
-**net** | 1.0 | SpinAndDrain | A simple Client-Server Socket tool to send packets through a network.
+**[net](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/net.md)** | 1.0 | SpinAndDrain | A simple Client-Server Socket tool to send packets through a network.
