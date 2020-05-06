@@ -119,7 +119,7 @@ public class Updater {
 	 */
 	public void installLatestVersion(ExecutionProvider provider) {
 		try {
-			String v = this.getLatestKnownVersion();
+			String v = this.getLatestVersion();
 			File file = new File("plugins/" + provider.preparation() + v + ".jar");
 			if (!file.getParentFile().exists())
 				file.getParentFile().mkdirs();
@@ -154,7 +154,7 @@ public class Updater {
 	public void install(String version, ExecutionProvider provider) {
 		try {
 			boolean latest = version.equals("latest");
-			String v = latest ? this.getLatestKnownVersion() : version,
+			String v = latest ? this.getLatestVersion() : version,
 					id = latest ? version : String.valueOf(this.getVersionId(v));
 			File file = new File("plugins/" + provider.preparation() + v + ".jar");
 			if (!file.getParentFile().exists())

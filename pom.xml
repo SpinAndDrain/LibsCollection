@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.spinanddrain</groupId>
 	<artifactId>libscollection</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<name>LibsCollection</name>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -24,6 +24,18 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

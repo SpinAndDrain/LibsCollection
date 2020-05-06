@@ -1,10 +1,14 @@
 package de.spinanddrain.lscript.tools;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import de.spinanddrain.lscript.LScript;
 import de.spinanddrain.lscript.exception.FileNotSupportedException;
@@ -35,10 +39,10 @@ public class LReader {
 	 * @param type type of the file
 	 * @return the read raw content of the specified <b>base</b> file
 	 * @throws FileNotSupportedException
-	 * @throws FileNotFoundException
 	 * @throws ScriptException
+	 * @throws IOException
 	 */
-	public LContainer[] read(ScriptType type) throws FileNotSupportedException, FileNotFoundException, ScriptException {
+	public LContainer[] read(ScriptType type) throws FileNotSupportedException, ScriptException, IOException {
 		return LScript.getDefaultCompilerFor(Session.createDecompilingSession(this.read()), type).decompile();
 	}
 	
@@ -48,11 +52,11 @@ public class LReader {
 	 * 
 	 * @param type
 	 * @return the parsed content of the specified <b>base</b> file
-	 * @throws FileNotFoundException
 	 * @throws ScriptException
 	 * @throws FileNotSupportedException
+	 * @throws IOException 
 	 */
-	public LParser readAndParse(ScriptType type) throws FileNotFoundException, ScriptException, FileNotSupportedException {
+	public LParser readAndParse(ScriptType type) throws ScriptException, FileNotSupportedException, IOException {
 		return LScript.getDefaultCompilerFor(Session.createDecompilingSession(this.read()), type).decompileAndParse(true);
 	}
 
@@ -62,9 +66,9 @@ public class LReader {
 	 * 
 	 * @return
 	 * @throws FileNotSupportedException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	private String[] read() throws FileNotSupportedException, FileNotFoundException {
+	private String[] read() throws FileNotSupportedException, IOException {
 		if(base == null || !base.exists()) {
 			throw new FileNotFoundException("File not found");
 		}
@@ -75,9 +79,10 @@ public class LReader {
 			throw new FileNotSupportedException("File is not readable");
 		}
 		List<String> lines = new ArrayList<String>();
-		Scanner s = new Scanner(base);
-		while(s.hasNextLine()) {
-			lines.add(s.nextLine());
+		BufferedReader s = new BufferedReader(new InputStreamReader(new FileInputStream(base), StandardCharsets.UTF_8));
+		String line;
+		while((line = s.readLine()) != null) {
+			lines.add(line);
 		}
 		s.close();
 		return lines.toArray(new String[lines.size()]);

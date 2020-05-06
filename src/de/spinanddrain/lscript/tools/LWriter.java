@@ -2,8 +2,11 @@ package de.spinanddrain.lscript.tools;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,7 +159,7 @@ public class LWriter {
 		LCompiler compiler = LScript.getDefaultCompilerFor(
 				Session.createCompilingSession(this.virtualizeThis(replaceVariables)), ScriptType.TRANSLATION,
 				comments.toArray(new String[comments.size()]));
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
 		for (String line : compiler.compile()) {
 			bw.write(line);
 			bw.newLine();
