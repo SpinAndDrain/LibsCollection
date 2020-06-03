@@ -23,7 +23,7 @@ de.spinanddrain.supportchat:60569;de.spinanddrain.advancedlog:64268;de.spinanddr
 
 As you can see, the key is the respective main package of the respective project and the value is the resource id.
 __prid__ can fetch this information out of any URL on a web server and so I can always get the resource ids
-just with the repsective key.
+just with the respective key.
 
 The idea behind __prid__ was that every time you puplish a new resource on SpigotMC.org you had directly to
 make an update to set the correct resource id in your plugin's updater. With __prid__ you can insert the resource id
