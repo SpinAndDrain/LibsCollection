@@ -43,7 +43,7 @@ to your maven project:
 		<dependency>
 			<groupId>com.github.SpinAndDrain</groupId>
 			<artifactId>LibsCollection</artifactId>
-			<version>1.2</version>
+			<version>1.2.1</version>
 		</dependency>
 	</dependencies>
 ````
