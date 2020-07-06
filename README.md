@@ -58,6 +58,15 @@ __LibsCollection__ is (currently) compatible with all minecraft versions
 another plugin, then the total compatibility can be influenced by the other
 plugins version scope.
 
+### Bungee and Spigot Reference
+
+**config.yml:**
+
+Config Entry | Type | Description | Default Value
+------------ | ---- | ----------- | -------------
+updater | boolean | If LibsCollection should search for updates on startup. | true
+force-LRID | boolean | Forces the updater to take the integrated resource ID directly. This prevents long startup times and/or crashes while the default HTTP protocol or web request was rejected. | false
+
 ### Included Libraries
 
 Library | Version | Author | Description
