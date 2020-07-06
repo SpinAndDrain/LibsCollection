@@ -43,7 +43,7 @@ to your maven project:
 		<dependency>
 			<groupId>com.github.SpinAndDrain</groupId>
 			<artifactId>LibsCollection</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.2</version>
 		</dependency>
 	</dependencies>
 ````
@@ -64,7 +64,7 @@ Library | Version | Author | Description
 ------- | ------- | ------ | -----------
 **[Logging](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/Logging.md)** | 1.0.1 | SpinAndDrain | A simple logging extension to format your logs and console outputs.
 **[LScript](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/LScript.md)** | 2.0.3 | SpinAndDrain | A small script language to store language packets for applications.
-**[prid](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/prid.md)** | 1.0 | SpinAndDrain | A simple parser to convert data strings.
+**[prid](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/prid.md)** | 1.1 | SpinAndDrain | A simple parser to convert data strings.
 **[Updater](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/Updater.md)** | 1.0.3 | SpinAndDrain | A Updater for Spigot & BungeeCord to check versions and install updates.
 **[UTIL](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/UTIL.md)** | 1.0 | SpinAndDrain | API for modifying and handling Arrays, Strings and mathematical processes (and much more).
 **[net](https://github.com/SpinAndDrain/LibsCollection/blob/master/libraries/net.md)** | 1.0 | SpinAndDrain | A simple Client-Server Socket tool to send packets through a network.
