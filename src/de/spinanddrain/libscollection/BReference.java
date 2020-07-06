@@ -16,7 +16,7 @@ public class BReference extends Plugin {
 	protected static BReference instance;
 	private Log log;
 	
-	private boolean check;
+	private boolean check, forceLRID;
 	
 	@Override
 	public void onEnable() {
@@ -28,7 +28,7 @@ public class BReference extends Plugin {
 			log.log("§7[§6LibsCollection§7] §cAn §cerror §coccurred §c(" + e1.getMessage() + ")");
 		}
 		if(check) {
-			Updater u = Libraries.getPluginUpdaterFor(getDescription().getVersion());
+			Updater u = Libraries.getPluginUpdaterFor(getDescription().getVersion(), forceLRID, log);
 			log.log("§7[§6LibsCollection§7] §eChecking §efor §eupdates...");
 			try {
 				if(u.isAvailable())
@@ -53,9 +53,13 @@ public class BReference extends Plugin {
 		Configuration cfg = ConfigurationProvider.getProvider(YamlConfiguration.class).load(f);
 		if(!cfg.contains("updater")) {
 			cfg.set("updater", true);
-			ConfigurationProvider.getProvider(YamlConfiguration.class).save(cfg, f);
 		}
+		if(!cfg.contains("force-LRID")) {
+			cfg.set("force-LRID", false);
+		}
+		ConfigurationProvider.getProvider(YamlConfiguration.class).save(cfg, f);
 		this.check = cfg.getBoolean("updater");
+		this.forceLRID = cfg.getBoolean("force-LRID");
 	}
 	
 }

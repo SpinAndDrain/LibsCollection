@@ -15,7 +15,7 @@ public class SReference extends JavaPlugin {
 	protected static SReference instance;
 	private Log log;
 	
-	private boolean check;
+	private boolean check, forceLRID;
 	
 	@Override
 	public void onEnable() {
@@ -27,7 +27,7 @@ public class SReference extends JavaPlugin {
 			log.log("§7[§6LibsCollection§7] §cAn error occurred (" + e1.getMessage() + ")");
 		}
 		if(check) {
-			Updater u = Libraries.getPluginUpdaterFor(getDescription().getVersion());
+			Updater u = Libraries.getPluginUpdaterFor(getDescription().getVersion(), forceLRID, log);
 			log.log("§7[§6LibsCollection§7] §eChecking for updates...");
 			try {
 				if(u.isAvailable())
@@ -52,8 +52,10 @@ public class SReference extends JavaPlugin {
 		YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
 		cfg.options().copyDefaults(true);
 		cfg.addDefault("updater", true);
+		cfg.addDefault("force-LRID", false);
 		cfg.save(f);
 		this.check = cfg.getBoolean("updater");
+		this.forceLRID = cfg.getBoolean("force-LRID");
 	}
 	
 }

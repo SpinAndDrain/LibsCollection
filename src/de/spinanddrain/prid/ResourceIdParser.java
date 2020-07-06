@@ -23,21 +23,10 @@ public class ResourceIdParser {
 	 * 
 	 * @param key
 	 * @return the stored resource id by the specified project key
+	 * @throws IOException
 	 */
-	public int getResourceIdByKey(String key) {
-		try {
-			String[] args = this.read().split(";");
-			for(int i = 0; i < args.length; i++) {
-				String[] vp = args[i].split(":");
-				if(vp.length != 2)
-					throw new IndexOutOfBoundsException();
-				if(vp[0].equals(key))
-					return Integer.parseInt(vp[1]);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return 0;
+	public int getResourceIdByKey(String key) throws IOException {
+		return parseId(key, read());
 	}
 	
 	/**
@@ -46,10 +35,22 @@ public class ResourceIdParser {
 	 * @return the read content
 	 * @throws IOException
 	 */
-	private String read() throws IOException {
+	public String read() throws IOException {
 		return new BufferedReader(new InputStreamReader(url.openStream())).readLine();
 	}
 
+	public static int parseId(String resourceKey, String content) {
+		String[] args = content.split(";");
+		for(int i = 0; i < args.length; i++) {
+			String[] vp = args[i].split(":");
+			if(vp.length != 2)
+				throw new IndexOutOfBoundsException();
+			if(vp[0].equals(resourceKey))
+				return Integer.parseInt(vp[1]);
+		}
+		return 0;
+	}
+	
 	/**
 	 * 
 	 * @return the default <code>ResourceIdParser</code> instance
